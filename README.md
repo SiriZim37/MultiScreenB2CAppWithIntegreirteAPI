@@ -79,3 +79,8 @@ This project follows a **modular and scalable architecture**:
 🔑 Passwords are hashed before being stored with Room.
 🔐 Best practices for storing sensitive data are followed.
 
+
+## 📽️ Demo Video
+
+[![Demo Video](https://img.icons8.com/ios/452/play--v1.png)](https://github.com/SiriZim37/MultiScreenB2CAppWithIntegreirteAPI/blob/main/assets/demo_video.webm)
+
