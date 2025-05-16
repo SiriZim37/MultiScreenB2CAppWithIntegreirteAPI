@@ -50,8 +50,8 @@ fun LoginScreen(
 
     if (loginSuccess) {
         LaunchedEffect(Unit) {
-            navController.navigate(NavScreens.MainMenuScreen.name) {
-                popUpTo(NavScreens.LoginScreen.name) { inclusive = true }
+            navController.navigate(NavScreens.MainMenuScreen.route) {
+                popUpTo(NavScreens.LoginScreen.route) { inclusive = true }
             }
         }
     }
@@ -136,7 +136,7 @@ fun LoginScreen(
             Text(
                 text = "New user? Register here",
                 modifier = Modifier.clickable {
-                    navController.navigate(NavScreens.RegisterScreen.name)
+                    navController.navigate(NavScreens.RegisterScreen.route)
                 },
                 color = MaterialTheme.colorScheme.primary
             )

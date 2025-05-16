@@ -6,7 +6,7 @@ import androidx.activity.compose.setContent
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
-import com.siri.multiscreenb2cappwithintegreirteapi.navigation.ShopKartNavigation
+import com.siri.multiscreenb2cappwithintegreirteapi.navigation.RouteNavigation
 import com.siri.multiscreenb2cappwithintegreirteapi.ui.theme.MultiScreenB2CAppWithIntegreirteAPITheme
 import com.siri.multiscreenb2cappwithintegreirteapi.ui.theme.ShopKartTheme
 import dagger.hilt.android.AndroidEntryPoint
@@ -30,7 +30,7 @@ class MainActivity : ComponentActivity() {
 fun ShopKartApp() {
     MultiScreenB2CAppWithIntegreirteAPITheme {
         Surface(color = MaterialTheme.colorScheme.background) {
-            ShopKartNavigation()
+            RouteNavigation()
         }
     }
 }

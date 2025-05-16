@@ -24,19 +24,24 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import coil.ImageLoader
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.siri.multiscreenb2cappwithintegreirteapi.R
 import com.siri.multiscreenb2cappwithintegreirteapi.data.models.Product
+import com.siri.multiscreenb2cappwithintegreirteapi.navigation.NavScreens
 
 
 @Composable
-fun ProductsItem(product: Product, modifier: Modifier = Modifier) {
+fun ProductsItem(product: Product,
+                 onClick: () -> Unit, // Accept onClick as a lambda parameter
+                 modifier: Modifier = Modifier) {
     Column(
         modifier = modifier
             .width(180.dp)
             .padding(8.dp)
+            .clickable { onClick() }, // Handle the click event
     ) {
         Card(
             shape = RoundedCornerShape(12.dp),

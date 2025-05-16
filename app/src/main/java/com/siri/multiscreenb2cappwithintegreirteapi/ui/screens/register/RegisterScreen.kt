@@ -135,7 +135,7 @@ fun RegisterScreen(navController: NavController
                         password = password ,
                         onSuccess =  {
                             Toast.makeText(context, "Account created for $email", Toast.LENGTH_SHORT).show()
-                            navController.navigate(NavScreens.MainMenuScreen.name)
+                            navController.navigate(NavScreens.MainMenuScreen.route)
                         },
                         onError = {
                             Toast.makeText(context, it, Toast.LENGTH_SHORT).show()

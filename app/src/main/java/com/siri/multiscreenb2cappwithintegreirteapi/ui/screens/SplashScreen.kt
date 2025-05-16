@@ -51,9 +51,9 @@ fun SplashScreen(navController: NavController) {
         // เอา Firebase ออก แล้วใช้ if แบบ manual แทน
         val isLoggedIn = false // เปลี่ยนเป็น true เพื่อเทส MainScreen
         if (isLoggedIn) {
-            navController.navigate(NavScreens.MainMenuScreen.name)
+            navController.navigate(NavScreens.MainMenuScreen.route)
         } else {
-            navController.navigate(NavScreens.LoginScreen.name)
+            navController.navigate(NavScreens.LoginScreen.route)
         }
     }
 

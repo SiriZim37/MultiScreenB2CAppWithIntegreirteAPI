@@ -8,4 +8,8 @@ class UserRepository @Inject constructor(private val userDao: UserDao) {
     suspend fun getUserByEmail(email: String): UserEntity? {
         return userDao.getUserByEmail(email)
     }
+
+    suspend fun getFirstUser(): UserEntity? {
+        return userDao.getFirstUser()
+    }
 }

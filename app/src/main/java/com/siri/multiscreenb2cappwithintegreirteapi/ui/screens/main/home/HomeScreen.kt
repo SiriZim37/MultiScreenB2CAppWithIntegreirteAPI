@@ -1,5 +1,6 @@
 package com.siri.multiscreenb2cappwithintegreirteapi.ui.screen.main.home
 
+import android.util.Log
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
@@ -27,10 +28,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.HorizontalPagerIndicator
 import com.google.accompanist.pager.rememberPagerState
 import com.siri.multiscreenb2cappwithintegreirteapi.R
+import com.siri.multiscreenb2cappwithintegreirteapi.data.models.Category
+import com.siri.multiscreenb2cappwithintegreirteapi.navigation.NavScreens
 import com.siri.multiscreenb2cappwithintegreirteapi.ui.screens.main.product.ProductViewModel
 import com.siri.multiscreenb2cappwithintegreirteapi.ui.screens.main.components.ProductsItem
 import com.siri.multiscreenb2cappwithintegreirteapi.ui.theme.*
@@ -38,14 +42,14 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 @Composable
-fun HomeScreen( ) {
+fun HomeScreen(navController: NavController) { // Add navController parameter
     Column(
         modifier = Modifier
             .fillMaxSize()
             .verticalScroll(rememberScrollState())
             .padding(16.dp)
     ) {
-        TopAppBarHeader()
+        TopAppBarHeader(navController = navController)
         Spacer(Modifier.height(16.dp))
         OurProductsWithSearch()
         Spacer(Modifier.height(24.dp))
@@ -53,36 +57,36 @@ fun HomeScreen( ) {
         Spacer(Modifier.height(24.dp))
         ProductCategory()
         Spacer(Modifier.height(24.dp))
-        NewSection()
+        NewSection(navController = navController) // Pass navController here
         Spacer(Modifier.height(24.dp))
-        SaleSection()
+        SaleSection(navController = navController) // Pass navController here
 //        ProductWidget()
     }
 }
 
-// Home tab content (ส่วนนี้คือหน้าหลักเดิมของคุณ)
-@Composable
-fun HomeContent() {
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .verticalScroll(rememberScrollState())
-            .padding(16.dp)
-    ) {
-        TopAppBarHeader()
-        Spacer(Modifier.height(16.dp))
-        OurProductsWithSearch()
-        Spacer(Modifier.height(24.dp))
-        BannerContent()
-        Spacer(Modifier.height(24.dp))
-        ProductCategory()
-        Spacer(Modifier.height(24.dp))
-        ProductWidget()
-    }
-}
+//// Home tab content (ส่วนนี้คือหน้าหลักเดิมของคุณ)
+//@Composable
+//fun HomeContent() {
+//    Column(
+//        modifier = Modifier
+//            .fillMaxSize()
+//            .verticalScroll(rememberScrollState())
+//            .padding(16.dp)
+//    ) {
+//        TopAppBarHeader()
+//        Spacer(Modifier.height(16.dp))
+//        OurProductsWithSearch()
+//        Spacer(Modifier.height(24.dp))
+//        BannerContent()
+//        Spacer(Modifier.height(24.dp))
+//        ProductCategory()
+//        Spacer(Modifier.height(24.dp))
+//        ProductWidget()
+//    }
+//}
 
 @Composable
-fun TopAppBarHeader() {
+fun TopAppBarHeader(navController: NavController) {
     Row(
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.SpaceBetween,
@@ -91,7 +95,7 @@ fun TopAppBarHeader() {
         ElevatedCard(
             shape = RoundedCornerShape(12.dp)
         ) {
-            IconButton(onClick = { }) {
+            IconButton(onClick = {  }) {
                 Icon(
                     imageVector = Icons.Outlined.Menu,
                     contentDescription = "Menu"
@@ -105,6 +109,10 @@ fun TopAppBarHeader() {
                 painter = painterResource(id = R.drawable.ic_profile),
                 contentDescription = "User",
                 modifier = Modifier.size(50.dp)
+                    .clickable{
+                    navController.navigate("profile")
+                }
+
             )
         }
     }
@@ -221,12 +229,28 @@ fun BannerContent() {
 
 @Composable
 fun ProductCategory() {
-    val itemList = listOf("Sneakers", "Jacket", "Watch", "Watch")
+    val itemList = listOf("Home & Kitchen",
+        "Lighting",
+        "Bath & Towels",
+        "Furniture",
+        "Storage & Organization",
+        "Office Supplies",
+        "Tableware",
+        "Bedding",
+        "Rugs & Carpets",
+        "Storage Furniture",)
     val categoryImagesList = listOf(
         R.drawable.ic_product1,
         R.drawable.ic_product1,
         R.drawable.ic_product1,
+        R.drawable.ic_product1,
+        R.drawable.ic_product1,
+        R.drawable.ic_product1,
+        R.drawable.ic_product1,
+        R.drawable.ic_product1,
+        R.drawable.ic_product1,
         R.drawable.ic_product1
+
     )
 
     LazyRow(modifier = Modifier
@@ -267,7 +291,7 @@ fun ProductCategory() {
     }
 }
 @Composable
-fun NewSection(viewModel: ProductViewModel = hiltViewModel()) {
+fun NewSection(viewModel: ProductViewModel = hiltViewModel(), navController: NavController) {
     val newProducts by viewModel.newProducts
 
     Column(modifier = Modifier.padding(horizontal = 10.dp)) {
@@ -281,7 +305,18 @@ fun NewSection(viewModel: ProductViewModel = hiltViewModel()) {
 
         LazyRow {
             items(newProducts) { product ->
-                ProductsItem(product = product)
+                ProductsItem(
+                    product = product,
+                    onClick = {
+                        val productId = product.productId
+                        if (!productId.isNullOrEmpty()) {
+                            Log.d("RouteNavigation", "Navigating to ProductDetailsScreen with ID: $productId")
+                            navController.navigate("${NavScreens.ProductDetails.route}/$productId")
+                        } else {
+                            Log.e("RouteNavigation", "Cannot navigate: productId is null or empty")
+                        }
+                    }
+                )
             }
         }
     }
@@ -290,8 +325,8 @@ fun NewSection(viewModel: ProductViewModel = hiltViewModel()) {
 
 
 @Composable
-fun SaleSection(viewModel: ProductViewModel = hiltViewModel()) {
-    val newProducts by viewModel.saleProducts
+fun SaleSection(viewModel: ProductViewModel = hiltViewModel(), navController: NavController) {
+    val saleProducts by viewModel.saleProducts
 
     Column(modifier = Modifier.padding(horizontal = 10.dp)) {
         Row(verticalAlignment = Alignment.CenterVertically) {
@@ -304,11 +339,24 @@ fun SaleSection(viewModel: ProductViewModel = hiltViewModel()) {
         Spacer(modifier = Modifier.height(16.dp))
 
         LazyRow {
-            items(newProducts) { product ->
-                ProductsItem(product = product)
+            items(saleProducts) { product ->
+                ProductsItem(
+                    product = product,
+                    onClick = {
+                        val productId = product.productId
+                        if (!productId.isNullOrEmpty()) {
+                            Log.d("RouteNavigation", "Navigating to ProductDetailsScreen with ID: $productId")
+                            navController.navigate("${NavScreens.ProductDetails.route}/$productId")
+                        } else {
+                            Log.e("RouteNavigation", "Cannot navigate: productId is null or empty")
+                        }
+                    }
+                )
             }
         }
     }
+
+
 }
 
 
@@ -378,5 +426,5 @@ fun ProductWidget() {
 @Composable
 @Preview(showBackground = true, showSystemUi = true)
 fun PreviewHomeScreen() {
-    HomeScreen()
+    //HomeScreen()
 }
