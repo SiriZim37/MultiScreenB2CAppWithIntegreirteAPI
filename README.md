@@ -82,7 +82,5 @@ This project follows a **modular and scalable architecture**:
 
 ## 📽️ Demo Video
 
-<video width="320" height="240" controls>
-  <source src="https://raw.githubusercontent.com/SiriZim37/MultiScreenB2CAppWithIntegreirteAPI/main/assets/demo_video.webm" type="video/webm">
-  Your browser does not support the video tag.
-</video>
+![Demo Video](assets/demo_video.gif)
+
